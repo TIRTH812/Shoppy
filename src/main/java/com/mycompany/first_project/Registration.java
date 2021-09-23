@@ -18,17 +18,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "Registration", urlPatterns = {"/Registration"})
-public class Registration extends HttpServlet {
-
+public class Registration extends HttpServlet 
+{
     MD5 md5 = new MD5();
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NoSuchAlgorithmException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NoSuchAlgorithmException 
+    {
         response.setContentType("text/html;charset=UTF-8");
-
-        String btn = request.getParameter("btnSubmitNext");
-
         PrintWriter out = response.getWriter();
-
+        
+        String btn = request.getParameter("btnSubmitNext");
+ 
         String dbUrl = "jdbc:mysql://localhost:3306/ijavaprojectdbv1";
         String dbName = "root";
         String dbPassword = "";
@@ -48,31 +48,21 @@ public class Registration extends HttpServlet {
 
         PreparedStatement stmt = null;
 
-        System.out.println("out----------------------------------------err");
-        System.err.println("out----------------------------------------err");
-        out.println("out----------------------------------------");
-
         //Keep in mind that the name of the both buttons must be same.
-        if (btn.equals("submit")) {
-
+        if (btn.equals("submit")) 
+        {
             Customer_registration cust_reg = new Customer_registration(mobile, address, landmark, city, state, country, pincode, fullName, email, pwd);
-
             Customer_reg_implement cust_reg_impl = new Customer_reg_implement();
-
             int var = cust_reg_impl.insertCustomer(cust_reg);
 
             response.sendRedirect("Login_Page.jsp");
-
         }
 
-        //-----------------------------------------------------------------------------------
-        //shopkeeper
-        if (btn.equals("next")) {
-
+        //------------------------------  shopkeeper -------------------------------
+        if (btn.equals("next")) 
+        {
             Shopkeeper_registration shkp_reg = new Shopkeeper_registration(fullName, mobile, email, pwd);
-
             Shopkeeper_reg_implement shkp_reg_impl = new Shopkeeper_reg_implement();
-
             int var = shkp_reg_impl.insertShopkeeper(shkp_reg);
 
             try {
@@ -107,5 +97,4 @@ public class Registration extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-
 }

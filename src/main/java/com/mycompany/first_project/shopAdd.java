@@ -13,14 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "shopAdd", urlPatterns = {"/shopAdd"})
-public class shopAdd extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+public class shopAdd extends HttpServlet 
+{
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
-        out.print("hello");
 
         String dbUrl = "jdbc:mysql://localhost:3306/ijavaprojectdbv1";
         String dbName = "root";
@@ -29,28 +28,22 @@ public class shopAdd extends HttpServlet {
         String shopName = request.getParameter("txtShopName");
         String shopType = request.getParameter("ddlShopType");
         String landmark = request.getParameter("txt_landmark");
-        String pincode = request.getParameter("txt_pincode").toString();
+        String pincode = request.getParameter("txt_pincode");
         String address = request.getParameter("txt_add");
         String country = request.getParameter("ddl_country");
         String state = request.getParameter("ddl_state");
         String city = request.getParameter("ddl_city");
-        String btnAdd = request.getParameter("btnAdd");
         String item = null;
-
-        out.print(shopName + shopType + btnAdd);
-
-        PreparedStatement stmt = null;
 
         HttpSession session = request.getSession();
         String mobile = session.getAttribute("userName").toString();
 
-        out.print(mobile);
+        PreparedStatement stmt = null;
 
-        try {
+        try 
+        {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(dbUrl, dbName, dbPassword);
-
-            out.print("Hey There");
 
             String InsertCustAddress = "INSERT INTO shop_addr_tb VALUES (?,?,?,?,?,?,?)";
             stmt = con.prepareStatement(InsertCustAddress);
@@ -62,7 +55,7 @@ public class shopAdd extends HttpServlet {
             stmt.setString(6, country);
             stmt.setString(7, pincode);
             int countInsert = stmt.executeUpdate();
-            out.println(countInsert + " records affected.\n");
+//            out.println(countInsert + " records affected in add tbl.\n");
 
             String InsertCustAddress1 = "INSERT INTO `shop_info_tb`(Shopkeeper_ID, `Shop Name`, `Shop Type`, Shop_addr_ID, Items) VALUES (?,?,?,?,?)";
             stmt = con.prepareStatement(InsertCustAddress1);
@@ -73,38 +66,34 @@ public class shopAdd extends HttpServlet {
             stmt.setString(5, item);
 
             int countInsert1 = stmt.executeUpdate();
-            out.println(countInsert1 + " records affected.\n");
+//            out.println(countInsert1 + " records affected info tbl.\n");
 
             stmt.close();
             con.close();
 
             response.sendRedirect("Shopkeeper_Page.jsp");
-        } catch (Exception e) {
-            out.println(e);
-            e.printStackTrace();
-        }
-        /*finally
+        } 
+        catch (Exception e) 
         {
-            response.sendRedirect("Shopkeeper_Page.jsp");
+            out.println(e);
         }
-         */
-
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
         processRequest(request, response);
     }
 
     @Override
-    public String getServletInfo() {
+    public String getServletInfo() 
+    {
         return "Short description";
     }
 }

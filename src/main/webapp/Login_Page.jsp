@@ -8,11 +8,10 @@
     </head>
 
     <body>
-
-        <div class=" my-5 container d-flex justify-content-center">
-
-
-            <div class="card my-3  " style="width: 23rem;">
+        
+        <div class="my-5 container d-flex justify-content-center ">
+            
+            <div class="card my-3" style="width: 23rem;">
 
                 <form action="Login" class="my-2 mx-3 " method="POST">
                     <h1 class="my-3">Login</h1>
@@ -27,14 +26,11 @@
                     <label class="form-label" for="txt_name">Password</label> <input type="password" name="txt_pwd"><br>
 
                     <button class="btn btn-primary" type="submit" name="btnLoginNoaccount" id="btn_login" value="Login">Login</button><br>
-                    <a class="link-info" href="#">Forgot Password</a><br>
+                    <a class="link" href="#">Forgot Password</a><br>
                     <button class="btn btn-primary btn-sm" type="submit" name="btnLoginNoaccount" id="btn_noaccount" value="No_Account">I have no Account</button><br>
                 </form>
-                
+              
             </div>
         </div>
-
-
     </body>
-
 </html>

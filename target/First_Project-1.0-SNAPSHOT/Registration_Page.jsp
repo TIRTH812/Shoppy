@@ -1,101 +1,140 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<!doctype html>
 
-<html>
+<html lang="en">
+
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registration</title>
-
-        <style>
-            .row
-            {
-                display: inline-block;
-                width:10%;
-            }
-        </style>
-
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <title>Create Account</title>
     </head>
+
     <body>
+        <div class="container">
+            <h1 class="my-3">Create Your Account</h1>
+            <hr>
+            <form class="my-3" action="Registration" method="POST">
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">Select Your Role</legend>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rd_role" id="rd_customer" value="customer" onclick="showPanel('customer')">
+                            <label class="form-check-label" for="rd_customer">
+                                Customer
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rd_role" id="rd_shopkeeper" value="shopkeeper" onclick="showPanel('shopkeeper')">
+                            <label class="form-check-label" for="rd_shopkeeper">
+                                Shopkeeper
+                            </label>
+                        </div>
+                </fieldset>
+                <hr>
 
-        <form action="Registration" method="POST">
+                <panel id="image">
+                    <h1>Oops!... Role is not selected</h1>
+                </panel>
+                
+                <panel id="panelCommon">
 
-            <input type="radio" id="rd_customer" name="rd_role" value="customer" onclick="showPanel('customer')" checked>
-            <label for="rd_customer">Customer</label>
-            <input type="radio" id="rd_shopkeeper" name="rd_role" value="shopkeeper" onclick="showPanel('shopkeeper')">
-            <label for="rd_shopkeeper">Shopkeeper</label><br>
-
-            <panel id="panelCommon">
-                <div>
-                    <div>
-                        <div class="row"><label for="txt_fname">First Name</label></div>
-                        <div class="row"><input type="text" name="txt_fname"></div>
+                    <div class="row mb-3 mt-4">
+                        <label for="txt_fname" class="col-sm-2 col-form-label">First Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txt_fname" name="txt_fname">
+                        </div>
                     </div>
-                    <div>
-                        <div class="row""><label for="txt_mname">Middle Name</label></div>
-                        <div class="row""><input type="text" name="txt_mname"></div>
+                    <div class="row mb-3 mt-4">
+                        <label for="txt_mname" class="col-sm-2 col-form-label">Middle Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txt_mname" name="txt_mname">
+                        </div>
                     </div>
-                    <div>
-                        <label class="row" for="txt_lname">Last Name</label>
-                        <input class="row" type="text" name="txt_lname">
+                    <div class="row mb-3 mt-4">
+                        <label for="txt_lname" class="col-sm-2 col-form-label">Last Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txt_lname" name="txt_lname">
+                        </div>
                     </div>
-                    <div>
-                        <label class="row" for="txt_mobile">Mobile No.</label>
-                        <input class="row" type="number" name="txt_mobile">
+                    <div class="row mb-3 mt-4">
+                        <label for="txt_mobile" class="col-sm-2 col-form-label">Mobile No.</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="txt_mobile" name="txt_mobile">
+                        </div>
                     </div>
-                    <div>
-                        <label class="row" for="txt_email">Email</label>
-                        <input class="row" type="email" name="txt_email">
+                    <div class="row mb-3 mt-4">
+                        <label for="txt_email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="txt_email" name="txt_email">
+                        </div>
                     </div>
 
                     <panel id="panelShopkeeper">
-                        <div>
-                            <label class="row" for="ddl_country" id="lbl_co untry">Country</label>
-                            <select class="row" name="ddl_country" id="country" onchange="onCountryChange()">
-
-                            </select>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="ddl_country">Country</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="ddl_country" id="country" onchange="onCountryChange()">
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label class="row" for="ddl_state">State</label>
-                            <select class="row" name="ddl_state" id="state" onchange="onStateChange()">
-
-                            </select>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="ddl_state">State</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="ddl_state" id="state" onchange="onStateChange()">
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label class="row" for="ddl_city">City</label>
-                            <select class="row" name="ddl_city" id="city">
-
-                            </select>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="ddl_city">City</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="ddl_city" id="city">
+                                </select>
+                            </div>
+                        </div> 
+                        <div class="row mb-3 mt-4">
+                            <label for="txt_landmark" class="col-sm-2 col-form-label">Landmark</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txt_landmark" name="txt_landmark">
+                            </div>
                         </div>
-                        <div>
-                            <label class="row" for="txt_landmark">Landmark</label>
-                            <input class="row" type="text" name="txt_landmark">
+                        <div class="row mb-3 mt-4">
+                            <label for="txt_pincode" class="col-sm-2 col-form-label">Pincode</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="txt_pincode" name="txt_pincode">
+                            </div>
                         </div>
-                        <div>
-                            <label class="row" for="txt_pincode">Pin Code</label>
-                            <input class="row" type="number" name="txt_pincode">
-                        </div>
-                        <div>
-                            <label class="row" for="txt_add">Address</label>
-                            <textarea class="row" name="txt_add"></textarea>
-                        </div>
+                        <div class="row mb-3 mt-4">
+                            <label for="txt_add" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="txt_add" rows="3" name="txt_add"></textarea>
+                            </div>
+                        </div>   
                     </panel>
-                    <div>
-                        <label class="row" for="txt_pwd">Password</label>
-                        <input class="row" type="password" name="txt_pwd">
-                    </div>
-                    <div>
-                        <label class="row" for="txt_cpwd">Confirm Password</label>
-                        <input class="row" type="password" name="txt_cpwd">
-                    </div>
-                    <div>
-                        <button type="submit" name="btnSubmitNext" id="btnSubmit" value="submit">Submit</button>
-                        <button type="submit" name="btnSubmitNext" id="btnNext" value="next">Next</button>
-                    </div>
-                </div>
-            </panel>
-        </form>
 
-        <!-- ----------------------------------------------------------------Country----------------------------------------------------------------- -->       
+                    <div class="row mb-3">
+                        <label for="txt_pwd" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="txt_pwd" name="txt_pwd">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="txt_cpwd" class="col-sm-2 col-form-label">Confirm Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="txt_cpwd" name="txt_cpwd">
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-outline-primary" name="btnSubmitNext" id="btnSubmit" value="submit">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary" name="btnSubmitNext" id="btnNext" value="next">Next</button>
+                    </div>
+                </panel>
+            </form>
+        </div>
+
+        <!-- ---------------------------------------Country----------------------------------------- -->       
 
         <script>
 
@@ -121,7 +160,7 @@
                     .catch(error => console.log('error', error));
 
 
-//------------------------------------Remove Function for removing options from State & City DropDownLists--------------------------------------
+            //--------------Remove Function for removing options from State & City DropDownLists---------------------
 
             function removeOptions(ddlName)
             {
@@ -140,7 +179,7 @@
                  }*/
             }
 
-//----------------------------------------------------------------------State------------------------------------------------------------------
+            //-------------------------------------------------State--------------------------------------------------
 
             function onCountryChange()
             {
@@ -163,7 +202,7 @@
                         .catch(error => console.log('error', error));
             }
 
-            //--------------------------------------------------------------------City---------------------------------------------------------------------
+            // ------------------------------------------------City-------------------------------------------------
 
             function onStateChange()
             {
@@ -190,15 +229,38 @@
 
         </script>
 
+
+        <!-- Optional JavaScript; choose one of the two! -->
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+        <!-- Option 2: Separate Popper and Bootstrap JS -->
+        <!--
+          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+        -->
     </body>
 
-    <!-- ------------------------------------------------------------ Panel Visibility Logic ------------------------------------------------------->    
+    <!-- ------------------------------------ Panel Visibility Logic --------------------------------------------- -->
 
     <script>
-        document.getElementById("panelCommon").style.display = "block";
-        document.getElementById("panelShopkeeper").style.display = "block";
-        document.getElementById("btnSubmit").style.display = "block";
+        document.getElementById("panelCommon").style.display = "none";
+        document.getElementById("panelShopkeeper").style.display = "none";
+        document.getElementById("btnSubmit").style.display = "none";
         document.getElementById("btnNext").style.display = "none";
+        document.getElementById("image").style.display = "none";
+
+        let customer = document.getElementById("rd_customer");
+        let shopkeeper = document.getElementById("rd_shopkeeper");
+        if(customer.checked == false && shopkeeper.checked == false)
+        {
+            document.getElementById("panelCommon").style.display = "none";
+            document.getElementById("panelShopkeeper").style.display = "none";
+            document.getElementById("btnSubmit").style.display = "none";
+            document.getElementById("btnNext").style.display = "none";
+            document.getElementById("image").style.display = "block";
+        }
 
         function showPanel(ch)
         {
@@ -208,6 +270,7 @@
                 document.getElementById("panelShopkeeper").style.display = "block";
                 document.getElementById("btnSubmit").style.display = "block";
                 document.getElementById("btnNext").style.display = "none";
+                document.getElementById("image").style.display = "none";
             }
             if (ch === "shopkeeper")
             {
@@ -215,8 +278,8 @@
                 document.getElementById("panelShopkeeper").style.display = "none";
                 document.getElementById("btnSubmit").style.display = "none";
                 document.getElementById("btnNext").style.display = "block";
+                document.getElementById("image").style.display = "none";
             }
         }
     </script>
-
 </html>

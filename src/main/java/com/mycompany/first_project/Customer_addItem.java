@@ -29,9 +29,8 @@ public class Customer_addItem extends HttpServlet {
     private final String dbUrl = "jdbc:mysql://localhost:3306/ijavaprojectdbv1";
     private final String dbName = "root";
     private final String dbPassword = "";
-    int temp = 0;
 
-    static int autoIncr = 1;
+    int temp = 0;
 
     Statement stmt;
     PreparedStatement stmt1;
@@ -40,7 +39,8 @@ public class Customer_addItem extends HttpServlet {
 
     HttpSession session = null;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException 
+    {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -75,7 +75,8 @@ public class Customer_addItem extends HttpServlet {
 
     }
 
-    protected Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException 
+    {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -85,11 +86,11 @@ public class Customer_addItem extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        // TODO Auto-generated catch block
         return connection;
     }
 
-    private void display(HttpServletRequest request, HttpServletResponse response) throws SQLException, ParseException, ServletException, IOException {
+    private void display(HttpServletRequest request, HttpServletResponse response) throws SQLException, ParseException, ServletException, IOException 
+    {
         Connection con = getConnection();
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -101,32 +102,44 @@ public class Customer_addItem extends HttpServlet {
         ResultSet rs = stmt1.executeQuery();
 
         String json = null;
-
         while (rs.next()) {
             json = rs.getString("Items");
         }
+        
+        JSONArray array = new JSONArray();
+        if(json != null)
+        {
+            JSONParser jp = new JSONParser();
+            Object ob = jp.parse(json);
 
-        JSONParser jp = new JSONParser();
-        Object ob = jp.parse(json);
-
-        JSONObject jsonObj = (JSONObject) ob;
-        JSONArray array = (JSONArray) jsonObj.get("Items");
-
+            JSONObject jsonObj = (JSONObject) ob;
+            array = (JSONArray) jsonObj.get("Items");
+        }
+        
         request.setAttribute("jArray", array);
         RequestDispatcher rd = request.getRequestDispatcher("Cust_item_list.jsp");
         rd.forward(request, response);
     }
 
-    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
         temp = 0;
         RequestDispatcher rd = request.getRequestDispatcher("Cust_item_form.jsp");
         request.setAttribute("temp", temp);
         rd.forward(request, response);
     }
 
-    private void insertProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ParseException, ServletException {
+    private void insertProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ParseException, ServletException 
+    {
         PrintWriter out = response.getWriter();
 
+        String id;
+        String name = request.getParameter("name");
+        String price = request.getParameter("price");
+        String unit = request.getParameter("ddl_item_unit");
+        String quantity = request.getParameter("item_qnt");
+        String category = request.getParameter("ddl_item_ctg");
+        
         Connection con = getConnection();
         String InsertCustAddress = "SELECT * FROM shop_info_tb WHERE `Shopkeeper_ID`=?";
         stmt1 = con.prepareStatement(InsertCustAddress);
@@ -134,80 +147,83 @@ public class Customer_addItem extends HttpServlet {
         ResultSet rs = stmt1.executeQuery();
 
         String json = null;
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             json = rs.getString("Items");
-//            out.print("Json :"+json+"<br><br>");
         }
 
-        JSONParser jp = new JSONParser();
-        Object ob = jp.parse(json);
-        JSONObject jsonObj = (JSONObject) ob;
-        JSONArray array = (JSONArray) jsonObj.get("Items");
+        if(json == null)
+        {
+            id = "1";
+        
+            JSONObject obj = new JSONObject();
+            obj.put("ID", id);
+            obj.put("Name", name);
+            obj.put("Price", price);
+            obj.put("Unit", unit);
+            obj.put("Quantity", quantity);
+            obj.put("Category", category);
+            JSONArray array = new JSONArray();
+            array.add(obj);
+            JSONObject objMain = new JSONObject();
+            objMain.put("Items", array);
 
-        JSONObject jObj = null;
-        String maxId = "" + 0;
-        //auto-increment logic
-        if (array.size() == 0) {
+            String sql1 = "UPDATE shop_info_tb SET items='" + objMain.toJSONString() + "' WHERE `Shopkeeper_ID`= " + session.getAttribute("userName").toString();//
+            stmt = con.createStatement();
+            stmt.executeUpdate(sql1);
 
-        } else {
-            jObj = (JSONObject) array.get(array.size() - 1);
-            maxId = jObj.get("ID").toString();
+            request.setAttribute("jArray", array);
+            RequestDispatcher rd = request.getRequestDispatcher("Cust_item_list.jsp");
+            rd.forward(request, response);
         }
+        else
+        {
+            JSONParser jp = new JSONParser();
+            Object ob = jp.parse(json);
+            JSONObject jsonObj = (JSONObject) ob;
+            JSONArray array = (JSONArray) jsonObj.get("Items");
 
-        //out.println(maxId + ", ");
-        if (autoIncr == 1) {
-            autoIncr = Integer.parseInt(maxId);
+            JSONObject jObj = null;
 
-        }
+            //auto-increment logic
+            if(array.isEmpty())
+            {
+                id = "1";
+            }
+            else
+            {   
+                jObj = (JSONObject) array.get(array.size() - 1);
+                String maxId = (String) jObj.get("ID");
+                int temp1 = Integer.parseInt(maxId);
+                id = "" + (++temp1);
+            }
+            
+            JSONObject obj = new JSONObject();
+            obj.put("ID", id);
+            obj.put("Name", name);
+            obj.put("Price", price);
+            obj.put("Unit", unit);
+            obj.put("Quantity", quantity);
+            obj.put("Category", category);
+            array.add(obj);
+            JSONObject objMain = new JSONObject();
+            objMain.put("Items", array);
 
-        //String id = request.getParameter("id");
-        String id;
-        //id = String.valueOf(autoIncr);
-        id = "" + (++autoIncr);
-        String name = request.getParameter("name");
-        String price = request.getParameter("price");
-        String unit = request.getParameter("ddl_item_unit");
-        String quantity = request.getParameter("item_qnt").toString();
-        String category = request.getParameter("ddl_item_ctg");
-        //out.print(" Your Entered Data :<br> ID: "+id+" Name: "+name+" Price: "+price+"<br><br>");
+            String sql1 = "UPDATE shop_info_tb SET items='" + objMain.toJSONString() + "' WHERE `Shopkeeper_ID`= " + session.getAttribute("userName").toString();//
+            stmt = con.createStatement();
+            stmt.executeUpdate(sql1);
 
-        JSONObject obj = new JSONObject();
-        obj.put("ID", id);
-        obj.put("Name", name);
-        obj.put("Price", price);
-        obj.put("Unit", unit);
-        obj.put("Quantity", quantity);
-        obj.put("Category", category);
-        array.add(obj);
-        JSONObject objMain = new JSONObject();
-        objMain.put("Items", array);
-
-//        out.print(" JSON after: "+objMain.toJSONString()+"<br><br>");
-//        out.print("Total Data After Insertion<br>");
-        for (int i = 0; i < array.size(); i++) {
-            JSONObject items = (JSONObject) array.get(i);
-            String jID = (String) items.get("ID");
-            String jName = (String) items.get("Name");
-            String jPrice = (String) items.get("Price");
-            String jUnit = (String) items.get("Unit");
-            String jQuantity = (String) items.get("Quantity");
-            String jCategory = (String) items.get("Category");
-//            out.println("ID: "+jID+" Name: "+jName+" Price: "+jPrice+" <br>");
-        }
-
-        String sql1 = "UPDATE shop_info_tb SET items='" + objMain.toJSONString() + "' WHERE `Shopkeeper_ID`= " + session.getAttribute("userName").toString();//
-        stmt = con.createStatement();
-        stmt.executeUpdate(sql1);
-
-        request.setAttribute("jArray", array);
-        RequestDispatcher rd = request.getRequestDispatcher("Cust_item_list.jsp");
-        rd.forward(request, response);
+            request.setAttribute("jArray", array);
+            RequestDispatcher rd = request.getRequestDispatcher("Cust_item_list.jsp");
+            rd.forward(request, response);
+        }        
     }
 
-    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ParseException, ServletException {
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ParseException, ServletException 
+    {
         PrintWriter out = response.getWriter();
+        
         String deleteID = request.getParameter("id");
-//        out.print("ID: "+a);
 
         Connection con = getConnection();
         String InsertCustAddress = "SELECT * FROM shop_info_tb WHERE `Shopkeeper_ID`=?";
@@ -216,7 +232,8 @@ public class Customer_addItem extends HttpServlet {
         ResultSet rs = stmt1.executeQuery();
 
         String json = null;
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             json = rs.getString("Items");
         }
 
@@ -225,19 +242,16 @@ public class Customer_addItem extends HttpServlet {
         JSONObject jsonObj = (JSONObject) ob;
         JSONArray array = (JSONArray) jsonObj.get("Items");
 
-        for (int i = 0; i < array.size(); i++) {
+        for (int i = 0; i < array.size(); i++) 
+        {
             JSONObject items = (JSONObject) array.get(i);
-            String jID = (String) items.get("ID");
-            String jName = (String) items.get("Name");
-            String jPrice = (String) items.get("Price");
-            String jUnit = (String) items.get("Unit");
-            String jQuantity = (String) items.get("Quantity");
-            String jCategory = (String) items.get("Category");
-
-            if (deleteID.equals(jID)) {
+            String jID = (String) items.get("ID");    
+            if (deleteID.equals(jID)) 
+            {
                 array.remove(items);
             }
         }
+        
         JSONObject objMain = new JSONObject();
         objMain.put("Items", array);
 
@@ -248,12 +262,11 @@ public class Customer_addItem extends HttpServlet {
         display(request, response);
     }
 
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ParseException {
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException, ParseException 
+    {
         PrintWriter out = response.getWriter();
 
-        //out.print("\nInside Edit function");
         String id = request.getParameter("id");
-//        User existingUser = userDAO.selectUser(id);
 
         Connection con = getConnection();
 
@@ -265,8 +278,8 @@ public class Customer_addItem extends HttpServlet {
         rs = stmt1.executeQuery();
 
         String json = null;
-
-        while (rs.next()) {
+        while (rs.next()) 
+        {
             json = rs.getString("Items");
         }
 
@@ -296,28 +309,24 @@ public class Customer_addItem extends HttpServlet {
         }
 
         temp = 1;
-
         RequestDispatcher dispatcher = request.getRequestDispatcher("Cust_item_form.jsp");
         request.setAttribute("temp", temp);
         dispatcher.forward(request, response);
     }
 
-    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ParseException, ServletException, IOException {
-
+    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ParseException, ServletException, IOException 
+    {
         PrintWriter out = response.getWriter();
+        
         String updateID = request.getParameter("id");
         String newName = request.getParameter("name");
         String newPrice = request.getParameter("price");
         String newUnit = request.getParameter("ddl_item_unit");
-        String newQuantity = request.getParameter("item_qnt").toString();
+        String newQuantity = request.getParameter("item_qnt");
         String newCategory = request.getParameter("ddl_item_ctg");
-// 
-        //out.print(" ID: "+updateID+"<br> Name: "+newName+"<br> Price: "+newPrice);
 
-        //out.print("\nUpdate User");
         Connection con = getConnection();
         String InsertCustAddress = "SELECT * FROM shop_info_tb WHERE `Shopkeeper_ID`=?";
-
         stmt1 = con.prepareStatement(InsertCustAddress);
         stmt1.setString(1, session.getAttribute("userName").toString());
         ResultSet rs = stmt1.executeQuery();
@@ -332,16 +341,12 @@ public class Customer_addItem extends HttpServlet {
         JSONObject jsonObj = (JSONObject) ob;
         JSONArray array = (JSONArray) jsonObj.get("Items");
 
-        for (int i = 0; i < array.size(); i++) {
+        for (int i = 0; i < array.size(); i++) 
+        {
             JSONObject items = (JSONObject) array.get(i);
             String jID = (String) items.get("ID");
-            String jName = (String) items.get("Name");
-            String jPrice = (String) items.get("Price");
-            String jUnit = (String) items.get("Unit");
-            String jQuantity = (String) items.get("Quantity");
-            String jCategory = (String) items.get("Category");
-
-            if (updateID.equals(jID)) {
+            if (updateID.equals(jID)) 
+            {
                 items.replace("Name", newName);
                 items.replace("Price", newPrice);
                 items.replace("Unit", newUnit);

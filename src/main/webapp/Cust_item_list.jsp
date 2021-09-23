@@ -39,36 +39,44 @@
                     <a href="<%=request.getContextPath()%>/display" class="btn btn-primary">Show Products</a>
                 </div>
                 <br>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Unit</th>
-                            <th>Quantity</th>
-                            <th>Category</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <c:forEach items="${jArray}" var="obj">
-                            <tr style="font-size: 18px">
-                                <td>${obj.get("ID")}</td>
-                                <td>${obj.get("Name")}</td>
-                                <td>${obj.get("Price")}</td>
-                                <td>${obj.get("Unit")}</td>
-                                <td>${obj.get("Quantity")}</td>
-                                <td>${obj.get("Category")}</td>
-                                <td>
-                                    <a href="edit?id=<c:out value='${obj.get("ID")}' />" class="btn btn-outline-warning btn-sm">Edit</a>&nbsp;
-                                    <a href="delete?id=<c:out value='${obj.get("ID")}' />" class="btn btn-outline-danger btn-sm">Delete</a>
-                                </td>
+                <c:if test="${jArray.size() == 0}">
+                    <div class="container">
+                        <p>No Data</p>
+                        <center><img src="NoData.png" height="300" alt="Loading..."/></center>
+                    </div>
+                </c:if>
+                <c:if test="${jArray.size() >= 1}">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Unit</th>
+                                <th>Quantity</th>
+                                <th>Category</th>
+                                <th></th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+
+                            <c:forEach items="${jArray}" var="obj">
+                                <tr style="font-size: 18px">
+                                    <td>${obj.get("ID")}</td>
+                                    <td>${obj.get("Name")}</td>
+                                    <td>${obj.get("Price")}</td>
+                                    <td>${obj.get("Unit")}</td>
+                                    <td>${obj.get("Quantity")}</td>
+                                    <td>${obj.get("Category")}</td>
+                                    <td>
+                                        <a href="edit?id=<c:out value='${obj.get("ID")}' />" class="btn btn-outline-warning btn-sm">Edit</a>&nbsp;
+                                        <a href="delete?id=<c:out value='${obj.get("ID")}' />" class="btn btn-outline-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
             </div>
         </div>
 
