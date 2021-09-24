@@ -42,7 +42,7 @@
 
             if (session.getAttribute("userName") == null) {
                 response.sendRedirect("Login_Page.jsp");
-                
+
             }
         %>
 
@@ -52,18 +52,15 @@
             <div class="card">
                 <div class="card-body">
                     <form action="ShopkeeperManageProfile" method="post">
-                        
+
                         <%
-                            
-                         
                             try {
 
                                 connection = DriverManager.getConnection(dbURL, dbUid, dbPwd);
                                 statement = connection.createStatement();
 
                                 //out.print("Connection establish successfully");
-                                String sql = "SELECT * FROM `shopkeeper_info_tb`,`shop_addr_tb`,`shop_info_tb` WHERE `shopkeeper_info_tb`.`Shopkeeper ID` = "+id+" AND `shop_addr_tb`.`Sh_Addr_ID` = "+id+" AND `shop_info_tb`.`Shopkeeper_ID` = "+id+" ";
-                               
+                                String sql = "SELECT * FROM `shopkeeper_info_tb`,`shop_addr_tb`,`shop_info_tb` WHERE `shopkeeper_info_tb`.`Shopkeeper ID` = " + id + " AND `shop_addr_tb`.`Sh_Addr_ID` = " + id + " AND `shop_info_tb`.`Shopkeeper_ID` = " + id + " ";
 
                                 resultset = statement.executeQuery(sql);
 
@@ -85,8 +82,7 @@
                                 String emailid = resultset.getString("Email ID");
 
                                 connection.close();
-                            } 
-                            catch (Exception e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                                 out.print(e);
                             }
@@ -151,17 +147,15 @@
 
                         <fieldset class="form-group">
                             <label>Shop Type</label>
-                            <select class="form-control" name="ddlShopType" >
-                                <option>Grocery Shop</option>
-                                <option>Sweet Shop</option>
-                                <option>Stationary Shop</option>
-                                <option>Bakery Shop</option>
+                            <select class="form-control" id="ddlShopType" name="ddlShopType" >
+                                <option id="GroceryShop" value="Grocery Shop">Grocery Shop</option>
+                                <option id="SweetShop" value="Sweet Shop">Sweet Shop</option>
+                                <option id="StationaryShop" value="Stationary Shop">Stationary Shop</option>
+                                <option id="BakeryShop" value="Bakery Shop">Bakery Shop</option>
                             </select>
                         </fieldset>
                         <br>
                         <br>
-
-
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-outline-success">Save</button>
@@ -266,10 +260,17 @@
                             }))
                         .catch(error => console.log('error', error));
             }
-
         </script>
-
-
-
     </body>
+    
+    <script>
+//        For Shop Type Drop Down List
+        let option = document.getElementById("ddlShopType");
+        for (let i = 0; i < option.length; i++) {
+            if (option[i].value === `${shoptype}`) {
+                const e = option[i].id;
+                document.getElementById(e).selected = true;
+            }
+        }
+    </script>
 </html>

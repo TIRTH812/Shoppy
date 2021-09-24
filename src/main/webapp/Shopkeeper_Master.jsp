@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Project Name</a>
+        <a class="navbar-brand" href="#">Shoopy</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -31,7 +31,7 @@
             </ul>
             <form class="d-flex" action="Shopkeeper" method="POST">
                 <!--<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-                <input class="btn btn-outline-success" style="margin-top: 8px; margin-bottom: -8px;" type="submit" id="btnLogout" name="btnLogout" value="logout"></button>
+                <input class="btn btn-outline-success" type="submit" id="btnLogout" name="btnLogout" value="logout"></button>
             </form>
         </div>
     </div>

@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     </head>
     <body>
 
@@ -30,47 +30,9 @@
                 response.sendRedirect("Login_Page.jsp");
             }
         %>
-
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Shoppy</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Manage Profile</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Customers</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="<%=request.getContextPath()%>/list">Products</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Shop</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">About Us</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" action="Shopkeeper" method="POST">
-                        <!--<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-                        <input class="btn btn-outline-success" style="margin-top: 8px; margin-bottom: -8px;" type="submit" id="btnLogout" name="btnLogout" value="logout">
-                    </form>
-                </div>
-            </div>
-        </nav>
-
+        
+        <%@include file="Shopkeeper_Master.jsp" %>
+        
         <br>
         <div class="container col-md-5">
             <div class="card">
@@ -115,12 +77,12 @@
                             <br>
                             <fieldset class="form-group">
                                 <label for="ddl_item_unit">Item Unit</label>
-                                <select class="form-control" id="ddl_item_unit"  name="ddl_item_unit" value="<c:out value='${jUnit}' />" >
-                                    <option>Kg</option>
-                                    <option>Litre</option>
-                                    <option>ML</option>
-                                    <option>Gram</option>
-                                    <option>other</option>
+                                <select class="form-control" id="ddl_item_unit"  name="ddl_item_unit">
+                                    <option id="Kg" value="Kg">Kg</option>         
+                                    <option id="Litre" value="Litre">Litre</option>
+                                    <option id="ML" value="ML">ML</option>
+                                    <option id="Gram" value="Gram">Gram</option>
+                                    <option id="other" value="other">other</option>
                                 </select>
                             </fieldset>
                             <br>
@@ -131,10 +93,11 @@
                             <br>
                             <fieldset class="form-group">
                                 <label for="ddl_item_ctg">Item Category</label>
-                                <select class="form-control" id="ddl_item_ctg" name="ddl_item_ctg" value="<c:out value='${jCategory}' />">
-                                    <option>Dairy</option>
-                                    <option>Grocery</option>
-                                    <option>other</option>
+                                <select class="form-control" id="ddl_item_ctg" name="ddl_item_ctg">
+                                    <option id="Dairy" value="Dairy">Dairy</option>
+                                    <option id="Grocery" value="Grocery">Grocery</option>
+                                    <option id="Cosmetics" value="Cosmetics">Cosmetics</option>
+                                    <option id="other" value="other">other</option>
                                 </select>
                             </fieldset>
                             <br>
@@ -160,4 +123,24 @@
         -->
 
     </body>
+
+    <script>
+//        For Unit Drop Down List
+        let option = document.getElementById("ddl_item_unit");
+        for (let i = 0; i < option.length; i++) {
+            if (option[i].value === `${jUnit}`) {
+                const e = option[i].id;
+                document.getElementById(e).selected = true;
+            }
+        }
+
+//        For Category Drop Down List
+        option = document.getElementById("ddl_item_ctg");
+        for (let i = 0; i < option.length; i++) {
+            if (option[i].value === `${jCategory}`) {
+                const e = option[i].id;
+                document.getElementById(e).selected = true;
+            }
+        }
+    </script>
 </html>
