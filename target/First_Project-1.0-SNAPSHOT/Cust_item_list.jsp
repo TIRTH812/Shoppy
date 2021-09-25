@@ -27,10 +27,11 @@
         %>
 
         <%@include file="Shopkeeper_Master.jsp" %>
-        
+
         <div class="my-2 mx-5">
             <h3>Welcome ${userName}</h3>
         </div>
+
         <div class="container my-3">
             <div class="container">
                 <h3 class="text-center">List of Products</h3>
@@ -42,8 +43,8 @@
                 <br>
                 <c:if test="${jArray.size() == 0}">
                     <div class="container">
-                        <p>No Data</p>
-                        <center><img src="NoData.png" height="300" alt="Loading..."/></center>
+                        <center><img src="https://stories.freepiklabs.com/storage/4602/Empty-01.svg" height="400" alt="Loading..."/>
+                            <h5>Oops!..Please add some products.</h5></center>
                     </div>
                 </c:if>
                 <c:if test="${jArray.size() >= 1}">
