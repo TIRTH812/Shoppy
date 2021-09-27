@@ -21,6 +21,10 @@
                     <a class="nav-link active" aria-current="page" href="#">Order cart</a>
                 </li>
 
+                 <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="Customer_ShopList.jsp">Shop list</a>
+                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Searching</a>
                 </li>
