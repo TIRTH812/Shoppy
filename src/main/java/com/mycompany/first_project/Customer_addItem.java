@@ -98,7 +98,6 @@ public class Customer_addItem extends HttpServlet {
         String InsertCustAddress = "SELECT * FROM shop_info_tb WHERE `Shopkeeper_ID`=?";
         stmt1 = con.prepareStatement(InsertCustAddress);
         stmt1.setString(1, session.getAttribute("userName").toString());
-
         ResultSet rs = stmt1.executeQuery();
 
         String json = null;
