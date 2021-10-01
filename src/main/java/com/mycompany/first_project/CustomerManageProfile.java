@@ -1,9 +1,7 @@
 package com.mycompany.first_project;
 
 import com.mycompany.DAO.Customer_ManageProfile_implement;
-import com.mycompany.DAO.Shopkeeper_ManageProfile_implement;
 import com.mycompany.model.Customer_ManageProfile;
-import com.mycompany.model.Shopkeeper_ManageProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,9 +16,9 @@ public class CustomerManageProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-
-
+        
+        try ( PrintWriter out = response.getWriter()) 
+        {
             String fullName = request.getParameter("txt_name");
             String email = request.getParameter("txt_email");
             String address = request.getParameter("txt_address");
@@ -30,17 +28,11 @@ public class CustomerManageProfile extends HttpServlet {
             String city = request.getParameter("ddl_city");
             String pincode = request.getParameter("txt_pincode");
             
-            //out.print(shopName);
-
             Customer_ManageProfile cmp = new Customer_ManageProfile(fullName, email, address, landmark, country, state, city, pincode);
-
             Customer_ManageProfile_implement cmp_impl = new Customer_ManageProfile_implement();
-
             cmp_impl.updateCustomerProfile(cmp, request, response);
 
             response.sendRedirect("Customer_Page.jsp");
-
-
         }
     }
 
@@ -82,5 +74,4 @@ public class CustomerManageProfile extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

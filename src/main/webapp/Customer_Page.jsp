@@ -20,12 +20,9 @@
         %>
 
         <%@include file="Customer_Master.jsp" %>        
+        
         <div class="my-5 mx-5">
             <h1>Welcome ${userName}</h1>
         </div>
-        <form class="d-flex" action="Customer" method="POST">
-            <input class="btn btn-outline-success" type="submit" id="btnShow" name="btnLogout" value="Show list"></button>
-        </form>
-
     </body>
 </html>

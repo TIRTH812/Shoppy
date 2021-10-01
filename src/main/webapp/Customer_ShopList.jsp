@@ -25,8 +25,6 @@
 
 %>
 
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,7 +39,8 @@
 
     </head>
     <body>
-        <%            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        <%            
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
             response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
             response.setDateHeader("Expires", 0); // Proxies.
 
@@ -52,7 +51,6 @@
 
         <%@include file="Customer_Master.jsp" %>        
 
-
         <%
             try {
 
@@ -60,7 +58,7 @@
                 statement = connection.createStatement();
 
                 //out.print("Connection establish successfully");
-                String sql = "SELECT  `shop_info_tb`.`Shop ID`, `shop_info_tb`.`Shop Name`,`shop_info_tb`.`Shop Type`,`shop_info_tb`.`Items`,`shop_addr_tb`.`Society Name`,`shop_addr_tb`.`Landmark`,`shop_addr_tb`.`City`FROM `shop_addr_tb`JOIN `cust_addr_tb` ON `shop_addr_tb`.`Pin Code` = `cust_addr_tb`.`Pin code`JOIN `shop_info_tb` ON `shop_info_tb`.`Shop_addr_ID` = `shop_addr_tb`.`Sh_Addr_ID`WHERE `cust_addr_tb`.`Cust_Addr_ID` = " + id + "";
+                String sql = "SELECT  `shop_info_tb`.`Shop ID`, `shop_info_tb`.`Shop Name`,`shop_info_tb`.`Shop Type`,`shop_info_tb`.`Items`,`shop_addr_tb`.`Society Name`,`shop_addr_tb`.`Landmark`,`shop_addr_tb`.`City`FROM `shop_addr_tb`JOIN `cust_addr_tb` ON `shop_addr_tb`.`Pin Code` = `cust_addr_tb`.`Pin code`JOIN `shop_info_tb` ON `shop_info_tb`.`Shop_addr_ID` = `shop_addr_tb`.`Sh_Addr_ID`WHERE `cust_addr_tb`.`Cust_Addr_ID` = " + id + "";   
 
                 resultset = statement.executeQuery(sql);
 
@@ -85,14 +83,15 @@
                 <tbody>
 
 
-                    <%                    while (resultset.next()) {
+                    <%                    
+                        while (resultset.next()) 
+                        {
                             request.setAttribute("shopID", resultset.getString("Shop ID"));
                             request.setAttribute("shopName", resultset.getString("Shop Name"));
                             request.setAttribute("shopType", resultset.getString("Shop Type"));
                             request.setAttribute("shopAddress", resultset.getString("Society Name"));
                             request.setAttribute("shopLandmark", resultset.getString("Landmark"));
                             request.setAttribute("shopCity", resultset.getString("City"));
-
                     %>
 
 

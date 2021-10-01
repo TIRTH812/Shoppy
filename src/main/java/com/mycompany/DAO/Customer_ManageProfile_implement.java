@@ -1,7 +1,6 @@
 package com.mycompany.DAO;
 
 import com.mycompany.model.Customer_ManageProfile;
-import com.mycompany.model.Customer_ManageProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -14,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class Customer_ManageProfile_implement implements db_connection{
-
+public class Customer_ManageProfile_implement implements db_connection
+{
     PreparedStatement stmt = null;
     //Customer_registration shopkeeperReg;
 
